@@ -12,8 +12,11 @@ services:
     container_name: rental-app
     ports:
       - '3000:3000'
-    env_file: 
-      - ./.env # Spécifie le fichier .env utilisé
+    volumes:
+      - .:/usr/src/app # Mount the project directory into the container
+      - /usr/src/app/node_modules # Prevent node_modules overwriting
+    env_file:
+      - ./.env
     environment:
       DATABASE_HOST: ${DATABASE_HOST}
       DATABASE_PORT: ${DATABASE_PORT}
@@ -22,6 +25,7 @@ services:
       DATABASE_NAME: ${DATABASE_NAME}
     depends_on:
       - db
+    command: npm run start:dev # Use the NestJS development script
     networks:
       - rental-network
 
@@ -29,14 +33,14 @@ services:
     image: postgres:14
     container_name: rentalappdb
     restart: always
-    env_file: 
-      - ./.env # Spécifie le fichier .env utilisé
+    env_file:
+      - ./.env
     ports:
-      - '5433:5432' # Map 5433 sur l'hôte au port interne 5432
+      - '5433:5432'
     volumes:
-      - postgres-data:/var/lib/postgresql/data
+      - ./postgres-data:/var/lib/postgresql/data
     networks:
       - rental-network
-
+  
 volumes:
   postgres-data:

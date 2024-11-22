@@ -80,7 +80,7 @@ export class CustomerService {
     updateCustomerDto: UpdateCustomerDto,
   ): Promise<Address> {
     if (!address) {
-      throw new NotFoundException('Customer address not found');
+      throw new NotFoundException('Customer address not found ');
     }
 
     // Update address fields
