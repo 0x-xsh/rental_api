@@ -41,13 +41,10 @@ export class TaskService {
   /**
    * Fetch and execute tasks for the current UTC day
    */
-  async fetchAndExecuteTasksForToday(): Promise<void> {
-    const nowUTC = dayjs().utc(); // Current UTC time
-    const after24hUTC = nowUTC.add(24, 'hour').toDate(); 
+  async fetchTasksForNext24Hours(): Promise<Task[]> {
+    const nowUTC = dayjs().utc();
+    const after24hUTC = nowUTC.add(24, 'hour').toDate();
 
-    
-
-    // Fetch all tasks for the current day
     const tasks = await this.taskRepository.find({
       where: {
         execution_time_utc: Between(nowUTC.toDate(), after24hUTC),
@@ -55,13 +52,8 @@ export class TaskService {
       },
     });
 
-    this.logger.log(`Found ${tasks.length} tasks for the next 24h.`);
-
-    // Process each task
-    for (const task of tasks) {
-      await this.executeTask(task);
-      await this.markTaskAsExecuted(task.id);
-    }
+    this.logger.log(`Fetched ${tasks.length} tasks for the next 24 hours.`);
+    return tasks;
   }
 
   /**
@@ -79,7 +71,7 @@ export class TaskService {
   /**
    * Mark a task as executed in the database
    */
-  private async markTaskAsExecuted(taskId: number): Promise<void> {
+   async markTaskAsExecuted(taskId: number): Promise<void> {
     await this.taskRepository.update(taskId, { status: 'EXECUTED' });
     this.logger.log(`Task ID ${taskId} marked as EXECUTED.`);
   }

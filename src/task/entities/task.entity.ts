@@ -20,7 +20,7 @@ import {
     execution_time_utc: Date;
   
     @Column({ length: 50, default: 'PENDING' })
-    status: string; // PENDING | EXECUTED | FAILED
+    status: string; // PENDING | EXECUTED 
   
     @CreateDateColumn()
     created_at: Date;

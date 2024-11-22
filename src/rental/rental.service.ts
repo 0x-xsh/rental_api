@@ -100,6 +100,7 @@ export class RentalService {
       rental_id: rental.rental_id,
       task_type: 'REMINDER_EMAIL',
       execution_time_utc: D5LocalMidday,
+      
     };
   
     const taskD3 = {
