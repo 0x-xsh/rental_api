@@ -14,13 +14,13 @@ import { TaskModule } from './task/task.module';
   imports: [
     TypeOrmModule.forRoot({
       type: 'postgres',
-      host: 'localhost', 
-      port: 5433,        
-      username: 'postgres', 
-      password: 'postgres', 
-      database: 'culturedb', 
-      autoLoadEntities: true, 
-      synchronize: false, 
+      host: process.env.DATABASE_HOST,  
+      port: parseInt(process.env.DATABASE_PORT),
+      username: process.env.DATABASE_USER ,
+      password: process.env.DATABASE_PASSWORD,
+      database: process.env.DATABASE_NAME ,
+      autoLoadEntities: true,
+      synchronize: false, //
     }),
     CustomerModule, 
     RentalModule,   
