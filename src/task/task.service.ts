@@ -1,11 +1,11 @@
-import { Injectable, InternalServerErrorException, Logger } from '@nestjs/common';
+import { Injectable, InternalServerErrorException, Logger, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, Between } from 'typeorm';
 import { Task } from './entities/task.entity';
 import * as dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 
-dayjs.extend(utc);
+
 
 @Injectable()
 export class TaskService {
@@ -16,7 +16,18 @@ export class TaskService {
     private readonly taskRepository: Repository<Task>,
   ) {}
 
-  
+  async getTaskById(id: number): Promise<Task> {
+    const task = await this.taskRepository.findOne({ where: { id } });
+    if (!task) {
+      throw new NotFoundException(`Task with ID ${id} not found.`);
+    }
+    return task;
+  }
+
+
+  async getAllTasks(): Promise<Task[]> {
+    return this.taskRepository.find();
+  }
   async createTask(taskData: Partial<Task>): Promise<Task> {
     try {
       const task = this.taskRepository.create(taskData);
@@ -44,7 +55,7 @@ export class TaskService {
       },
     });
 
-    this.logger.log(`Found ${tasks.length} tasks for today.`);
+    this.logger.log(`Found ${tasks.length} tasks for the next 24h.`);
 
     // Process each task
     for (const task of tasks) {
@@ -56,7 +67,7 @@ export class TaskService {
   /**
    * Execute a single task
    */
-  private async executeTask(task: Task): Promise<void> {
+   async executeTask(task: Task): Promise<void> {
     try {
       // Add your task execution logic here (e.g., send email, notification)
       this.logger.log(`Executing task: Rental ID ${task.rental_id}, Task Type ${task.task_type}`);

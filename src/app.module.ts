@@ -9,7 +9,6 @@ import { StaffModule } from './staff/staff.module';
 import { CityModule } from './city/city.module';
 import { CountryModule } from './country/country.module';
 import { TaskModule } from './task/task.module';
-import { TaskModule } from './task/task.module';
 
 @Module({
   imports: [

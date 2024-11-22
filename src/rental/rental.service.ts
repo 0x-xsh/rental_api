@@ -9,7 +9,7 @@ import { TaskService } from '../task/task.service';
 import * as dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 
-dayjs.extend(utc);
+
 
 @Injectable()
 export class RentalService {
@@ -27,8 +27,8 @@ export class RentalService {
   ) {}
 
   async createRental(rentalData: CreateRentalDto): Promise<Rental> {
-    const rentalDate = dayjs(rentalData.rental_date).utc();
-    const returnDate = dayjs(rentalData.return_date).utc();
+    const rentalDate = dayjs(rentalData.rental_date);
+    const returnDate = dayjs(rentalData.return_date);
 
     // Validate rental duration
     const rentalDuration = returnDate.diff(rentalDate, 'day');
@@ -72,26 +72,43 @@ export class RentalService {
    * Create tasks for the rental
    */
   private async createTasksForRental(rental: Rental): Promise<void> {
+     // Assume the customer entity has a `timezone` field
     const returnDate = dayjs(rental.return_date).utc();
-
-    // Task 1: 5 days before return date
-    const D5Date = returnDate.subtract(5, 'day').toDate();
-    const D3Date = returnDate.subtract(3, 'day').toDate();
-
-    const taskd5 = {rental_id: rental.rental_id,
+  
+    // Task 1: 5 days before return date at 12 PM client time
+    const D5LocalMidday = returnDate
+      .subtract(5, 'day')
+       // Convert to client's local timezone
+      .hour(12) // Set to 12 PM midday
+      .minute(0)
+      .second(0)
+      .utc()
+      .toDate(); // Convert to UTC and then to a Date object
+  
+    // Task 2: 3 days before return date at 12 PM client time
+    const D3LocalMidday = returnDate
+      .subtract(3, 'day')
+       // Convert to client's local timezone
+      .hour(12)
+      .minute(0)
+      .second(0)
+      .utc()
+      .toDate();
+  
+    // Create tasks
+    const taskD5 = {
+      rental_id: rental.rental_id,
       task_type: 'REMINDER_EMAIL',
-      execution_time_utc: D5Date,}
-    
-    const taskd3 = {rental_id: rental.rental_id,
+      execution_time_utc: D5LocalMidday,
+    };
+  
+    const taskD3 = {
+      rental_id: rental.rental_id,
       task_type: 'REMINDER_EMAIL',
-      execution_time_utc: D3Date,}
-    
-    
-    
-    await this.taskService.createTask(taskd5);
-    await this.taskService.createTask(taskd3);
-
-
-    
+      execution_time_utc: D3LocalMidday,
+    };
+  
+    await this.taskService.createTask(taskD5);
+    await this.taskService.createTask(taskD3);
   }
 }
