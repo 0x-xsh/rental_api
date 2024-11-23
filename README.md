@@ -1,5 +1,5 @@
 # Deployment 
-docker compose up --build 
+`docker compose up --build` 
 
 # API Endpoints Summary
 
