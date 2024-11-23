@@ -8,8 +8,8 @@
 - **API Design**:  
   Created a quick UML diagram for API design, adhering to data contracts using DTOs.  
 - **Database Modifications**:  
-  Used `ALTER TABLE` to add required columns to `customer` and `rental` tables.
-  Used `ALTER TABLE` to add required table `task` to store the scheduled tasks.  
+  - Used `ALTER TABLE` to add required columns to `customer` and `rental` tables.
+  - Used `ALTER TABLE` to add required table `task` to store the scheduled tasks.  
     
 - **Task Scheduling**:  
   - For each rental, two tasks are created: one 5 days before the return date and another 3 days before.  
