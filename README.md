@@ -1,6 +1,30 @@
 # SETUP
 `docker compose up --build`
+# Overview of the Task scheduling mechanism
 
+- **Task Planning Strategy**:
+  - For each rental, I check if the customer and stock exist.
+  - I then retrieve the rental date and return date.
+  - Both rental and return dates are **converted to UTC** to ensure uniformity in date comparison across different time zones.
+
+- **Why Convert to UTC?**:
+  - Ensures that dates from customers in different time zones can be compared correctly.
+  - Prevents discrepancies when comparing dates between customers and server instances, as the server may be running in multiple time zones.
+  - Guarantees accurate scheduling and task execution based on a single, standardized time reference (UTC).
+  
+- **Task Creation**:
+  - I create **two tasks for each rental**:
+    - One task set to 5 days before the return date.
+    - Another task set to 3 days before the return date.
+  - The task due dates are also stored in **UTC**.
+
+- **Cron Job Setup**:
+  - I set up 2 **cron jobs** that runs every hour to retrieve tasks from the db just in case i miss some, and another that runs every minute to check fi a task is wthin 5 minutes of execution time.
+  - I chose a one-hour interval to avoid database overload while ensuring no tasks are missed.
+  
+- **Task Execution Timing**:
+  - If a rental is added right after a cron job check, the closest task will still be executed, as the nearest task is at least two days after creation.
+  - This ensures no tasks are missed even if they are created immediately after a scheduled cron check.
 
 # API Documentation - Rentals and Tasks Management
 
