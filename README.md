@@ -1,3 +1,7 @@
+# SETUP
+`docker compose up --build`
+
+
 # API Documentation - Rentals and Tasks Management
 
 ---
