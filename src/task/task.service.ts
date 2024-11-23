@@ -1,7 +1,7 @@
 import { Injectable, InternalServerErrorException, Logger, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, Between } from 'typeorm';
-import { Task } from './entities/task.entity';
+import { Task, TaskStatus } from './entities/task.entity';
 import * as dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 
@@ -25,9 +25,13 @@ export class TaskService {
   }
 
 
-  async getAllTasks(): Promise<Task[]> {
-    return this.taskRepository.find();
+  async getScheduledTasks(): Promise<Task[]> {
+    return this.taskRepository.find({
+      where: { status: TaskStatus.PENDING }, // Fetch tasks with status 'PENDING'
+      order: { execution_time_utc: 'ASC' }, // Optional: Order by execution time
+    });
   }
+  
   async createTask(taskData: Partial<Task>): Promise<Task> {
     try {
       const task = this.taskRepository.create(taskData);
@@ -44,11 +48,11 @@ export class TaskService {
   async fetchTasksForNext24Hours(): Promise<Task[]> {
     const nowUTC = dayjs().utc();
     const after24hUTC = nowUTC.add(24, 'hour').toDate();
-
+    
     const tasks = await this.taskRepository.find({
       where: {
         execution_time_utc: Between(nowUTC.toDate(), after24hUTC),
-        status: 'PENDING',
+        status: TaskStatus.PENDING,
       },
     });
 
@@ -72,7 +76,7 @@ export class TaskService {
    * Mark a task as executed in the database
    */
    async markTaskAsExecuted(taskId: number): Promise<void> {
-    await this.taskRepository.update(taskId, { status: 'EXECUTED' });
+    await this.taskRepository.update(taskId, { status: TaskStatus.EXECUTED });
     this.logger.log(`Task ID ${taskId} marked as EXECUTED.`);
   }
 }

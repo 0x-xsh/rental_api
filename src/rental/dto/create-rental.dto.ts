@@ -1,24 +1,22 @@
 import { IsInt, IsNotEmpty, IsOptional, IsString, IsDate } from 'class-validator';
 
 export class CreateRentalDto {
-  @IsInt()
-  @IsNotEmpty()
-  rental_id: number;
-
+  //id se cree par default
+  
   @IsDate()
   @IsNotEmpty()
   rental_date: Date;
 
   @IsInt()
-  @IsNotEmpty()
+  @IsOptional()
   inventory_id: number;
 
   @IsInt()
   @IsNotEmpty()
   customer_id: number;
-
-  @IsDate()
-  @IsOptional() // Assuming this field can be NULL
+  
+  @IsNotEmpty()
+  @IsDate() // Assuming this field can be NULL
   return_date?: Date;
 
   @IsInt()
@@ -26,10 +24,8 @@ export class CreateRentalDto {
   staff_id: number;
 
   @IsDate()
-  @IsNotEmpty()
   last_update: Date;
 
-  @IsString()
-  @IsOptional() // Assuming this field can be NULL
+  @IsString()   
   timezone?: string;
 }

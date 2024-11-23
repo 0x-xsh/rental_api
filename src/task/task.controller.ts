@@ -11,7 +11,7 @@ export class TaskController {
    */
   @Get()
   async listAllScheduledTasks(): Promise<Task[]> {
-    return this.taskService.getAllTasks();
+    return this.taskService.getScheduledTasks();
   }
 
   /**

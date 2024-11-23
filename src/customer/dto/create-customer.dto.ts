@@ -1,6 +1,9 @@
 import { IsString, IsEmail, IsBoolean, IsNumber, Matches } from 'class-validator';
 
 export class CreateCustomerDto {
+  
+  //id se cree par default
+  
   @IsString()
   first_name: string; // Required (cannot be empty)
 

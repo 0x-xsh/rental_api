@@ -14,11 +14,11 @@ import { TaskModule } from './task/task.module';
   imports: [
     TypeOrmModule.forRoot({
        type: 'postgres',
-      host: process.env.DATABASE_HOST , // Use `db` as defined in docker-compose.yml
+      host: process.env.DATABASE_HOST, 
       port: parseInt(process.env.DATABASE_PORT, 10),
-      username: process.env.DATABASE_USER,
+      username: process.env.DATABASE_USER ,
       password: process.env.DATABASE_PASSWORD,
-      database: process.env.DATABASE_NAME,
+      database: process.env.DATABASE_NAME, 
       autoLoadEntities: true,
       synchronize: false, 
     }),

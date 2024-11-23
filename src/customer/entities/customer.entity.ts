@@ -34,5 +34,9 @@ export class Customer {
 
   @ManyToOne(() => Address, { eager: true, nullable: true }) 
   @JoinColumn({ name: 'address_id' })
-  address?: Address; // Remains optional and nullable, but not explicitly set
+  address?: Address;
+
+  
+  @Column({ type: 'varchar', length: 50, nullable: false })
+  timezone?: string; // Optional timezone field
 }
