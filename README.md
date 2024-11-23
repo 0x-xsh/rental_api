@@ -1,3 +1,6 @@
+![image](https://github.com/user-attachments/assets/13c8b2d9-e8c7-4acc-a53d-f7afdd986212)
+Technical test overview
+
 # SETUP
 `docker compose up --build`
 
