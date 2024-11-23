@@ -1,5 +1,8 @@
 # SETUP
 `docker compose up --build`
+
+the environement variables (DB_HOST..etc) can be changed in the `.env` file.
+
 # Overview of the Task scheduling mechanism
 
 - **Task Planning Strategy**:
