@@ -122,7 +122,7 @@ services:
     env_file:
       - ./.env
     ports:
-      - '5433:5432'
+      - '5433:5432' //5433 instead of 5432 to avoid default port scanning malware 
     volumes:
       - ./init-db:/docker-entrypoint-initdb.d
     networks:
