@@ -67,6 +67,13 @@ export class TaskService {
     try {
       // Add your task execution logic here (e.g., send email, notification)
       this.logger.log(`Executing task: Rental ID ${task.rental_id}, Task Type ${task.task_type}`);
+      const task_type = task.task_type
+      if (task_type == 'REMINDER_EMAIL_D3') {
+        this.logger.log("EMAIL avant 3 jours envoyé")
+      } 
+      if (task_type == 'REMINDER_EMAIL_D5') {
+        this.logger.log("EMAIL avant 5 jours envoyé")
+      } 
     } catch (error) {
       this.logger.error(`Failed to execute task ID ${task.id}:`, error);
     }

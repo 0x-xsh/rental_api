@@ -9,21 +9,7 @@ import { Customer } from './entities/customer.entity';
 export class CustomerController {
   constructor(private readonly customerService: CustomerService) {}
 
-  // @Get()
-  // findAll(): Promise<Customer[]> {
-  //   return this.customerService.findAllCustomers();
-  // }
-
-  // @Get(':id')
-  // async findOne(@Param('id') id: number): Promise<Customer> {
-  //   const customer = await this.customerService.findCustomerById(id);
-    
-  //   if (!customer) {
-  //     throw new NotFoundException(`Customer with ID ${id} not found`);
-  //   }
-
-  //   return customer;
-  // }
+  
 
   @Post()
   create(@Body() data: CreateCustomerDto): Promise<Customer>{
