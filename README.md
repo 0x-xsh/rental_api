@@ -1,5 +1,5 @@
 ![image](https://github.com/user-attachments/assets/d1ce5c5f-7210-4e07-bdb8-e380692801a2)
-### **Setup**
+# **Setup**
 
 - **Prérequis :**
   - Docker doit être installé.
