@@ -1,4 +1,16 @@
 ![image](https://github.com/user-attachments/assets/d1ce5c5f-7210-4e07-bdb8-e380692801a2)
+### **Setup**
+
+- **Prérequis :**
+  - Docker doit être installé.
+
+- **Démarrez l'APP** :
+     ```bash
+     docker compose up
+     ```
+
+- **Configuration personnalisée (optionnel) :**
+  - Modifiez le fichier `.env` pour adapter les variables d'environnement selon vos besoins (base de données, ports, etc.).
 
 # Rapport de l'API
 
